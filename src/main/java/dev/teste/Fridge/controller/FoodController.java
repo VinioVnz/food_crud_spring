@@ -40,4 +40,9 @@ public class FoodController {
     public void delete(@PathVariable Long id){
         foodService.deletar(id);
     }
+
+    @PutMapping("/{id}")
+    public Food update(@RequestBody Food food, @PathVariable Long id){
+        return foodService.atualizar(id, food);
+    }
 }

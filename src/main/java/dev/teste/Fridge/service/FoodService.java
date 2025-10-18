@@ -2,6 +2,8 @@ package dev.teste.Fridge.service;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.stereotype.Service;
 
 import dev.teste.Fridge.model.Food;
@@ -28,5 +30,19 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
+    //update
+    public Food atualizar(Long id, Food food){
+        var foundedFood = foodRepository.findById(id);
+        if(foundedFood.isPresent()){
+            Food existingFood = foundedFood.get();
+            existingFood.setName(food.getName());
+            existingFood.setQuantity(food.getQuantity());
+            existingFood.setExpirationDate(food.getExpirationDate());
+
+            return foodRepository.save(existingFood);
+        }
+
+        throw new RuntimeException("Comida de id: "+id+ " não encontrada");
+    }
     
 }
